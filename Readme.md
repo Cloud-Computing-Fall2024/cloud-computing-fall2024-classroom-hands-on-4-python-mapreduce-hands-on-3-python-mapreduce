@@ -25,11 +25,13 @@ By completing this hands-on activity, students will:
 ### 2. **Install the Hadoop Cluster on any Virtual Machine**
 
 #### For Windows Users:
+
 - Download virtual box from this [link](https://www.virtualbox.org/)
 - Download the iso file for Ubuntu from this [link](https://ubuntu.com/download/desktop)
 - After installing and setting up the ubuntu VM follow the instruction that are given in the lecture slides to setup hadoop on a VM
 
 #### For Mac User:
+
 - For mac user installing hadoop doesn't require any additional VM on top of Macos
 - You can follow the instruction given in this article to install hadoop natively on mac book
 - [Click here](https://medium.com/@vikramus4/install-and-configure-hadoop-3-3-6-in-mac-os-dd4be4da8846) to install hadoop on macos
@@ -39,12 +41,13 @@ By completing this hands-on activity, students will:
 ### 3. **Prepare the Python Code for Mapper and Reducer**
 
 1. **Task 1: Total Sales per Product Category**
-    - Implement the Python Mapper and Reducer to calculate the **total quantity sold** and **total revenue** for each product category.
-    - Refer to the provided `mapper_task1.py` and `reducer_task1.py` files in the repository.
+
+   - Implement the Python Mapper and Reducer to calculate the **total quantity sold** and **total revenue** for each product category.
+   - Refer to the provided `mapper_task1.py` and `reducer_task1.py` files in the repository.
 
 2. **Task 2: Average Revenue per Product Category**
-    - Implement the Python Mapper and Reducer to calculate the **average revenue per product** for each category.
-    - Refer to the provided `mapper_task2.py` and `reducer_task2.py` files in the repository.
+   - Implement the Python Mapper and Reducer to calculate the **average revenue per product** for each category.
+   - Refer to the provided `mapper_task2.py` and `reducer_task2.py` files in the repository.
 
 ---
 
@@ -85,12 +88,17 @@ Now, you are ready to run the MapReduce job using Python and Hadoop Streaming. B
 Run the job using Hadoop Streaming:
 
 ```bash
-mapred streaming 
-    -files mapper_task1.py,reducer_task1.py 
-    -mapper mapper_task1.py 
-    -reducer reducer_task1.py 
-    -input /input/sales_data/product_sales.csv 
+mapred streaming
+    -files mapper_task1.py,reducer_task1.py
+    -mapper mapper_task1.py
+    -reducer reducer_task1.py
+    -input /input/sales_data/product_sales.csv
     -output /output/task1_total_sales
+```
+
+Or you can use this method to run the mapreduce streaming job
+```bash
+hadoop jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar -D stream.mapper=./mappers/mapper_task1.py -D stream.reducer=./reducers/reducer_task1.py -input /input/sales_data/product_sales.csv -output /output/task1
 ```
 
 #### **6.2 Task 2: Average Revenue per Product Category**
@@ -98,12 +106,17 @@ mapred streaming
 Run the job using Hadoop Streaming:
 
 ```bash
-mapred streaming 
-    -files mapper_task1.py,reducer_task1.py 
-    -mapper mapper_task1.py 
-    -reducer reducer_task1.py 
-    -input /input/sales_data/product_sales.csv 
+mapred streaming
+    -files mapper_task1.py,reducer_task1.py
+    -mapper mapper_task1.py
+    -reducer reducer_task1.py
+    -input /input/sales_data/product_sales.csv
     -output /output/task1_total_sales
+```
+
+Or you can use this method to run the mapreduce streaming job
+```bash
+hadoop jar /opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar -D stream.mapper=./mappers/mapper_task2.py -D stream.reducer=./reducers/reducer_task2.py -input /input/sales_data/product_sales.csv -output /output/task2
 ```
 
 ---
@@ -130,7 +143,7 @@ hadoop fs -cat /output/task2_avg_revenue/part-00000
 
 If you prefer to use the `mrjob` framework, follow the steps below.
 
-#### **8.1 Install mrjob library through pip
+#### \*\*8.1 Install mrjob library through pip
 
 #### **Note**: if you prefer using a virtual environment you can
 
@@ -172,20 +185,6 @@ Use the following command to copy the output from HDFS to the Hadoop directory:
 
 ```bash
 hadoop fs -get /output /opt/hadoop-3.2.1/share/hadoop/mapreduce/
-```
-
-#### **9.2 Copy Output from the Container to Your Local Machine**
-
-Now, exit the ResourceManager container:
-
-```bash
-exit
-```
-
-Next, copy the output files from the Docker container to your GitHub Codespaces environment:
-
-```bash
-docker cp resourcemanager:/opt/hadoop-3.2.1/share/hadoop/mapreduce/output/ ./output/
 ```
 
 ---
